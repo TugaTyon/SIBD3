@@ -18,7 +18,7 @@
           exit();
         }
         echo($_REQUEST['patient_name']);
-
+        $a = 10;
         $sql = "SELECT * FROM Patient WHERE name= '" . $_REQUEST['patient_name'] . "'";
         $result = $connection->query($sql);
 
