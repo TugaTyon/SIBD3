@@ -21,9 +21,6 @@
         $stmt-> execute();
         $row_num = $stmt->rowCount();
 
-        //$row_count = $result->row_Count();
-
-
         if ($stmt == FALSE)
         {
           $info = $connection->errorInfo();
@@ -53,14 +50,21 @@
             echo("</td></tr>");
           }
           echo("</table>");
-          //$connection = NULL;
+          $connection = NULL;
+          $stmt = NULL;
         }
         else
         {
           echo("<h3>Appointment Scheduller</h3>");
-          echo("<p>We found no Patients with such name. Would you like to add a new entry?</p>");
-          //echo("<p>Please insert the Patient Name: <input type="text" name="patient_name"/></p>");
-           /*METER OUTRA PAGINA (form)*/
+          echo("<p>We found no Patients with such name!</p>");
+          ?>
+        <form action="insert.php" method="post">
+          <p>Please insert the Patient Name: <input type="text" name="patient_name"/></p>
+          <p>Please insert the Patient Birthday(year-month-day): <input type="text" name="patient_birth"/></p>
+          <p>Please insert the Patient Address: <input type="text" name="patient_address"/></p>
+          <p><input type="submit" value="Submit"/></p>
+        </form>
+           <?php
         }
 
        ?>
