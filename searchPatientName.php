@@ -1,10 +1,9 @@
 <html>
   <body>
-    <h3>Registered Patients</h3>
       <?php
         try
         {
-          $host = 'db.ist.utl.pt';
+          $host = 'db.tecnico.ulisboa.pt';
           $user = 'ist173065';
           $pass = 'wsfv4254';
           $dsn = "mysql:host=$host;dbname=$user";
@@ -18,28 +17,30 @@
           exit();
         }
         $sql = "SELECT * FROM Patient WHERE name= '" . $_REQUEST['patient_name'] . "'";
-        $result = $connection->query($sql);
+        $stmt= $connection->prepare($sql);
+        $stmt-> execute();
+        $row_num = $stmt->rowCount();
+
+        //$row_count = $result->row_Count();
 
 
-        if ($result == FALSE)
+        if ($stmt == FALSE)
         {
           $info = $connection->errorInfo();
           echo("<p>Error: {$info[0]} {$info[1]} {$info[2]}</p>");
           exit();
         }
 
-        if (mysql_num_rows($result) === 0)
+
+        if ( $row_num > 0 )
         {
-          echo("<p>We found no Patients with such name. Would you like to add a new entry?</p>");
-          /*METER OUTRA PAGINA (form)*/
-        }
-        else
-        {
+
+          echo ("<h3>Registered Patients</h3>");
           echo("<table border=\"1\">");
           echo("<tr><td>ID</td><td>Name</td>
                 <td>Birthday</td><td>Address</td></tr>");
 
-          foreach($result as $row)
+          foreach($stmt as $row)
           {
             echo("<tr><td>");
             echo($row['number']);
@@ -52,6 +53,14 @@
             echo("</td></tr>");
           }
           echo("</table>");
+          //$connection = NULL;
+        }
+        else
+        {
+          echo("<h3>Appointment Scheduller</h3>");
+          echo("<p>We found no Patients with such name. Would you like to add a new entry?</p>");
+          //echo("<p>Please insert the Patient Name: <input type="text" name="patient_name"/></p>");
+           /*METER OUTRA PAGINA (form)*/
         }
 
        ?>
