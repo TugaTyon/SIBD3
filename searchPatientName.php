@@ -32,7 +32,7 @@
         if (mysql_num_rows($result) === 0)
         {
           echo("<p>We found no Patients with such name. Would you like to add a new entry?</p>");
-         
+          /*METER OUTRA PAGINA (form)*/
         }
         else
         {
