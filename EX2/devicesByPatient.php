@@ -35,18 +35,29 @@
       foreach($stmt as $row)
       {
         echo("<tr><td>");
-        if (!($currentDate < $row['end'])) {
+        //highlighted ID
+        if (!($currentDate < $row['end'])) { //TIRAR COMENTARIO DEPOIS DE TABELAS UPDATED!!!!!!!!!!!
           echo($row['snum']);   //If Device no longer in use
         }else {
-          echo('<a href="">'.$row['snum'].'</a>'); //If Device is in use and highlighted
-          echo ("<input type="button" value="Replace" onClick="location='deviceReplacement.php'"/>");
+          echo('<a href="">'.$row['snum'].'</a>'); //If Device is in use -> highlighted
         }
         echo("</td><td>");
         echo($row['model']);
         echo("</td><td>");
         echo($row['manufacturer']);
-        echo("</td><tr>");
 
+        //Create Button per line of Current Device
+        if (/*!*/($currentDate < $row['end'])) {//TIRAR COMENTARIO DEPOIS DE TABELAS UPDATED!!!!!!!!!!!
+          echo("</td></tr>");   //If Device no longer in use
+        }else {//If Device is in use -> button (Form)
+          echo ("<td>");
+          ?>
+          <form name="form" method="POST" action="deviceReplacement.php">
+             <input type="submit"  value="Replace">
+           </form>
+          <?php
+          echo ("</td></tr>");
+        }
       }
       echo("</table>");
 
