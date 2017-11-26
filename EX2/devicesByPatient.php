@@ -22,9 +22,11 @@
         exit();
       }
       $sql = "SELECT * FROM  Wears , Device
-      WHERE patient = ".$_REQUEST['patient_id']." AND snum = serialnum AND manuf = manufacturer ";
+      WHERE patient = ".$_REQUEST['patient_id']." AND snum = serialnum AND manuf = manufacturer ORDER BY 'end'";
       $stmt= $connection->prepare($sql);
       $stmt-> execute();
+
+      $currentDate = new DateTime("now");
 
       echo("<table border=\"1\">");
       echo("<tr><td>ID</td><td>Model</td>
@@ -33,7 +35,12 @@
       foreach($stmt as $row)
       {
         echo("<tr><td>");
-        echo($row['snum']);
+        if (!($currentDate < $row['end'])) {
+          echo($row['snum']);   //If Device no longer in use
+        }else {
+          echo('<a href="">'.$row['snum'].'</a>'); //If Device is in use and highlighted
+          echo ("<input type="button" value="Replace" onClick="location='deviceReplacement.php'"/>");
+        }
         echo("</td><td>");
         echo($row['model']);
         echo("</td><td>");
