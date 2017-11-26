@@ -1,13 +1,13 @@
 <html>
     <head>
-      <title>Teste</title>
+      <title>Devices by Patient</title>
   </head>
   <body>
-    <form action="searchPatientName.php" method="post">
-      <h3>Appointment Scheduller</h3>
-      <p>Please insert the Patient Name: <input type="text" name="patient_name"/></p>
-      <p><input type="submit" value="Submit"/></p>
-    </form>
+  
+      <h3>Devices by Patient</h3>
+      <h4><?php echo($_REQUEST['patient_name']); ?></h4>
+
+
   </body>
 
 </html>

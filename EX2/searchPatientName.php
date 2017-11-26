@@ -42,7 +42,7 @@
             echo("<tr><td>");
             echo($row['number']);
             echo("</td><td>");
-            echo(<a href="">$row['name']</a>);
+            echo('<a href="devicesByPatient.php?patient_name='.$row['name'].'">'.$row['name'].'</a>');
             echo("</td><td>");
             echo($row['birthday']);
             echo("</td><td>");
