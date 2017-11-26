@@ -1,6 +1,6 @@
 <html>
     <head>
-      <title>Appointment Scheduller</title>
+      <title>Teste</title>
   </head>
   <body>
     <form action="searchPatientName.php" method="post">
