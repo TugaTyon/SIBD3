@@ -22,11 +22,12 @@
         exit();
       }
       $sql = "SELECT * FROM  Wears , Device
-      WHERE patient = ".$_REQUEST['patient_id']." AND snum = serialnum AND manuf = manufacturer ORDER BY 'end'";
+      WHERE patient = ".$_REQUEST['patient_id']." AND snum = serialnum AND manuf = manufacturer ORDER BY `end` DESC";
       $stmt= $connection->prepare($sql);
       $stmt-> execute();
 
-      $currentDate = new DateTime("now");
+      date_default_timezone_set('Europe/Lisbon');
+      $currentDate = date('Y-m-d H:i:s');
 
       echo("<table border=\"1\">");
       echo("<tr><td>ID</td><td>Model</td>
@@ -36,7 +37,7 @@
       {
         echo("<tr><td>");
         //highlighted ID
-        if (!($currentDate < $row['end'])) { //TIRAR COMENTARIO DEPOIS DE TABELAS UPDATED!!!!!!!!!!!
+        if (($currentDate > $row['end'])) { //TIRAR COMENTARIO DEPOIS DE TABELAS UPDATED!!!!!!!!!!!
           echo($row['snum']);   //If Device no longer in use
         }else {
           echo('<a href="">'.$row['snum'].'</a>'); //If Device is in use -> highlighted
@@ -47,23 +48,25 @@
         echo($row['manufacturer']);
 
         //Create Button per line of Current Device
-        if (/*!*/($currentDate < $row['end'])) {//TIRAR COMENTARIO DEPOIS DE TABELAS UPDATED!!!!!!!!!!!
+        if (($currentDate > $row['end'])) {//TIRAR COMENTARIO DEPOIS DE TABELAS UPDATED!!!!!!!!!!!
           echo("</td></tr>");   //If Device no longer in use
         }else {//If Device is in use -> button (Form)
           echo ("<td>");
           ?>
           <form name="form" method="POST" action="deviceReplacement.php">
-             <input type="submit"  value="Replace">
+            <input value="<?php echo($row['manufacturer']);?>" type="hidden" name="manuf">
+            <input value="<?php echo($_REQUEST['patient_id']);?>" type="hidden" name="patient_id">
+            <input value="<?php echo($row['snum']);?>" type="hidden" name="snum_replace">
+            <input value="<?php echo($row['start']);?>" type="hidden" name="oldstart">
+            <input type="submit"  value="Replace">
            </form>
           <?php
           echo ("</td></tr>");
         }
       }
       echo("</table>");
-
+      $connection = NULL;
+      $stmt = NULL;
        ?>
-
-
   </body>
-
 </html>
