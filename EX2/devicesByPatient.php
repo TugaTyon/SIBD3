@@ -55,6 +55,9 @@
           ?>
           <form name="form" method="POST" action="deviceReplacement.php">
             <input value="<?php echo($row['manufacturer']);?>" type="hidden" name="manuf">
+            <input value="<?php echo($_REQUEST['patient_id']);?>" type="hidden" name="patient_id">
+            <input value="<?php echo($row['snum']);?>" type="hidden" name="snum_replace">
+            <input value="<?php echo($row['start']);?>" type="hidden" name="oldstart">
             <input type="submit"  value="Replace">
            </form>
           <?php

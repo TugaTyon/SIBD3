@@ -45,8 +45,12 @@
           echo($row['manufacturer']);
           echo("</td><td>");
           ?>
-          <form name="form" method="POST" action="confirmReplacment.php">
-            <input value="<?php echo($row['manufacturer']);?>" type="hidden" name="manuf">
+          <form name="form" method="POST" action="confirmReplacement.php">
+            <input value="<?php echo($row['manufacturer']);?>" type="hidden" name="manufacturer">
+            <input value="<?php echo($row['snum']);?>" type="hidden" name="serialnum">
+            <input value="<?php echo($_REQUEST['oldstart']);?>" type="hidden" name="oldstart">
+            <input value="<?php echo($_REQUEST['patient_id']);?>" type="hidden" name="patient_id">
+            <input value="<?php echo($_REQUEST['snum_replace']);?>" type="hidden" name="snum_replace">
             <input type="submit"  value="Choose">
            </form>
           <?php
