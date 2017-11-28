@@ -6,18 +6,22 @@ function new_connection(&$connection)
     $user = 'ist173065';
     $pass = 'wsfv4254';
     $dsn = "mysql:host=$host;dbname=$user";
-    
+    echo("<p>Attempting to connect to DB");
+    echo("</p>");
 
-  try{
-      $connection = new PDO($dsn, $user, $pass);
-  }
-  catch(PDOException $exception)
-  {
-      echo("<p>Error: ");
-      echo($exception->getMessage());
-      echo("</p>");
-      exit();
-  }
+    try{
+        
+        $connection = new PDO($dsn, $user, $pass);
+        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+    }
+    catch(PDOException $exception)
+    {
+        echo("<p>Error!! Info: ");
+        echo($exception->getMessage());
+        echo("</p>");
+        exit();
+    }
 
 }
 
