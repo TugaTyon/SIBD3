@@ -1,9 +1,15 @@
 <?php
   require_once('sql_funcs.php');
   session_start();
-  /*if(isset($_POST['patient_name'])){
-      $_SESSION['try_name'] = $_POST['patient_name'];
-  }*/
+
+  if(isset($_REQUEST['submit'])){
+    echo("Patient_ID: ".(int)$_REQUEST["patient_id"]);
+    echo("<br>Doctor_ID: ".$_REQUEST["doctor_id"]);
+    /*$_SESSION['try_name'] = $_POST['patient_name'];*/
+  }
+
+ 
+
  
 ?>
 
@@ -20,22 +26,31 @@
             new_connection($connection);
 
             $date_now = date('Y-m-d H:i:s');
-        ?>
-            <p>Patient ID: <?php echo($_POST['patient_id']); ?> </p>
-            <p>Doctor ID: <?php echo($_POST['doctor_id']); ?> </p>
-            <p>date: <?php echo($date_now); ?> </p>
-        <?php
+            $aux_null = null;
 
-            $sql =  "INSERT INTO ist173065.Request VALUES (:`number`, :patient_id, :doctor_id, :`date`)";
+            $sql =  "INSERT INTO ist173065.Request VALUES (:number,:patient_id,:doctor_id,:date)";
             echo("<p>Attempting to INSERT</p>");
-            $result = sql_secure_query($connection, $sql, Array(":`number`" => null ,
-                                                                ":patient_id" => $_POST['patient_id'] ,
-                                                                ":doctor_id" => $_POST['doctor_id'] ,
-                                                                ":`date`" => $date_now ) );
-
+            $result = sql_secure_query($connection, $sql, Array(":number" => $aux_null,
+                                                                ":patient_id" => $_POST['patient_id'],
+                                                                ":doctor_id" => $_POST['doctor_id'],
+                                                                ":date" => $date_now));
+            echo("<p>INSERTed</p>");
+            $sql = "SELECT * FROM ist173065.Request WHERE `date`= '" . $date_now . "'";
+            if($connection->query($sql) === TRUE)
+            {
+                $last_id = $connection->lastInsertId();
+                echo "New record created successfully. Last inserted ID is: " . $last_id;
+                $row_num = $stmt->rowCount();
+                if($row_num > 0){
+                    echo("Request number: " .$stmt['number']);
+                }
+            }else{
+                echo("Error: " . $sql . "<br>" . $conn->error);
+            }
+            echo("<h4>POPOPO</h4>");
             $connection = null;
 
-            echo("<p>INSERTed</p>");
+            
     /*        
             foreach ($_REQUEST as $exam_info => $value)
             {

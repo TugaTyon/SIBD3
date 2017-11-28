@@ -14,7 +14,7 @@
             <option value="heartRate">Heart Rate</option>
             </select>
         </p>
-      <p><input type="submit" value="Submit"/></p>
+      <p><input type="submit" name="submit" value="Submit"/></p>
     </form>
   </body>
 

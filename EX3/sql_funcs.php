@@ -30,16 +30,27 @@ function sql_secure_query($connection, $sql, Array $vals = [] )
   $stmt = $connection->prepare($sql);
 
   foreach($vals as $key => &$value)
-       $stmt->bindParam($key ,  $value);
-
-   if ($stmt->execute() == FALSE)
-   {
-       $info =  $connection->errorInfo();
-       echo("<div class=\"alert alert-danger\"> <b>Error: </b>");
-       echo($stmt->errorInfo()[2]);
-       echo("</div>");
-       exit();
-   }
+    {
+        echo("<p>$key : $value</p>");
+        $stmt->bindParam($key,$value);
+ 
+    }
+   
+   try{
+        if ($stmt->execute() == FALSE)
+        {
+            $info =  $connection->errorInfo();
+            echo("<p>Error: {$info[0]} {$info[1]} {$info[2]}</p>");
+            exit();
+        }
+    }
+    catch(PDOException $exception)
+    {
+        echo("<p>Error!! Info: ");
+        echo($exception->getMessage());
+        echo("</p>");
+        exit();
+    }
 
   return $stmt  ;
 }
