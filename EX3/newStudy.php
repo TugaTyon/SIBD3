@@ -35,15 +35,18 @@
                                                                 ":doctor_id" => $_POST['doctor_id'],
                                                                 ":date" => $date_now));
             echo("<p>INSERTed</p>");
-            $sql = "SELECT * FROM ist173065.Request WHERE `date`= '" . $date_now . "'";
-            if($connection->query($sql) === TRUE)
+            $sql = "SELECT number FROM ist173065.Request WHERE `date`= '" . $date_now . "'";
+            $stmt = $connection->prepare($sql);
+            $stmt-> execute();
+            
+            if($stmt == TRUE)
             {
-                $last_id = $connection->lastInsertId();
+                echo("TRUE<br>");
+                $last_id = $stmt->fetchColumn();
+                
+/*                $last_id = $stmt->lastInsertId();*/
                 echo "New record created successfully. Last inserted ID is: " . $last_id;
-                $row_num = $stmt->rowCount();
-                if($row_num > 0){
-                    echo("Request number: " .$stmt['number']);
-                }
+                
             }else{
                 echo("Error: " . $sql . "<br>" . $conn->error);
             }
