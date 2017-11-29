@@ -1,29 +1,26 @@
+<?php
+  require_once('sql_funcs.php');
+  session_start();
+?>
 <html>
   <body>
     <h3>Registerd Patients</h3>
     <?php
-      try
-      {
-        $host = 'db.tecnico.ulisboa.pt';
-        $user = 'ist173065';
-        $pass = 'wsfv4254';
-        $dsn = "mysql:host=$host;dbname=$user";
-        $connection = new PDO($dsn, $user, $pass);
-      }
-        catch(PDOException $exception)
-      {
-        echo("<p>Error: ");
-        echo($exception->getMessage());
-        echo("</p>");
-        exit();
-      }
+      $connection = null;
+      new_connection($connection);
 
-      $sql = "INSERT INTO ist173065.`Patient` (number, name, birthday, address) VALUES (null, '" .$_REQUEST['patient_name']. "', '" .$_REQUEST['patient_birth']. "','" .$_REQUEST['patient_address']. "')";
-      $stmt= $connection->prepare($sql);
-      $stmt-> execute();
+      $aux_null=null;
+      $sql = "INSERT INTO Patient (number, name, birthday, address) VALUES (:number, :patient_name, :patient_birth,:patient_address)";
+      $stmt=sql_safe_query($connection, $sql, Array(":number" => $aux_null, ":patient_name" => $_REQUEST['patient_name'],
+                                                          ":patient_birth" => $_REQUEST['patient_birth'],
+                                                          ":patient_address" => $_REQUEST['patient_address']));
      ?>
-    <p>Names: <?php echo($_REQUEST['patient_name']); ?> </p>
-    <p>Names: <?php echo($_REQUEST['patient_birth']); ?> </p>
-    <p>Names: <?php echo($_REQUEST['patient_address']); ?> </p>
+    <p>Name: <?php echo($_REQUEST['patient_name']); ?> </p>
+    <p>Birthday: <?php echo($_REQUEST['patient_birth']); ?> </p>
+    <p>Address: <?php echo($_REQUEST['patient_address']); ?> </p>
+
+    <form action="appointment.php" method="post">
+      <p><input type="submit" value="Homepage"/></p>
+    </form>
   </body>
 </html>

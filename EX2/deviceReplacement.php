@@ -1,3 +1,8 @@
+<?php
+  require_once('sql_funcs.php');
+  session_start();
+?>
+
 <html>
     <head>
       <title>Available Devices</title>
@@ -6,25 +11,12 @@
       <h3>Available Devices: <?php echo($_REQUEST['manuf']); ?></h3>
 
       <?php
-      try
-      {
-        $host = 'db.tecnico.ulisboa.pt';
-        $user = 'ist173065';
-        $pass = 'wsfv4254';
-        $dsn = "mysql:host=$host;dbname=$user";
-        $connection = new PDO($dsn, $user, $pass);
-      }
-        catch(PDOException $exception)
-      {
-        echo("<p>Error: ");
-        echo($exception->getMessage());
-        echo("</p>");
-        exit();
-      }
+      $connection = null;
+      new_connection($connection);
+
       $sql = "SELECT * FROM  Wears , Device
-      WHERE snum = serialnum AND manuf = manufacturer AND manuf = '".$_REQUEST['manuf']."' GROUP BY serialnum";
-      $stmt= $connection->prepare($sql);
-      $stmt-> execute();
+      WHERE snum = serialnum AND manuf = manufacturer AND manuf = :manufacturer GROUP BY serialnum";
+      $stmt=sql_safe_query($connection, $sql, Array(":manufacturer" => $_REQUEST['manuf']));
 
       date_default_timezone_set('Europe/Lisbon');
       $currentDate = date('Y-m-d H:i:s');
@@ -60,6 +52,8 @@
       echo("</table>");
 
        ?>
-
+       <form action="appointment.php" method="post">
+         <p><input type="submit" value="Homepage"/></p>
+       </form>
   </body>
 </html>
