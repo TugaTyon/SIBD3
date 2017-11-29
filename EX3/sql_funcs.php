@@ -29,21 +29,14 @@ function sql_safe_query($connection, $sql, Array $vals = [] )
 
   foreach($vals as $key => &$value)
     {
-        /*echo("<p>$key : $value</p>");*/
+
         $stmt->bindParam($key,$value);
  
     }
    
    try{
         $stmt->execute();
-/*      
-        if ($stmt->execute() == FALSE)
-        {
-            $info =  $connection->errorInfo();
-            echo("<p>Error: {$info[0]} {$info[1]} {$info[2]}</p>");
-            exit();
-        }
-*/
+
     }
     catch(PDOException $exception)
     {

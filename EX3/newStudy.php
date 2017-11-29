@@ -34,7 +34,7 @@
             $sql = "SELECT number FROM ist173065.Request WHERE `date`= '" . $date_now . "'";
             $stmt = $connection->prepare($sql);
             $stmt->execute();
-            /*$result = sql_safe_query($connection, $sql);*/
+            
             if($stmt == TRUE)
             {
                 $last_id = $stmt->fetchColumn();
@@ -45,30 +45,7 @@
                 echo("Error: " . $sql . "<br>" . $stmt->error);
 
             }
-/*      
-            $sql = "SELECT DISTINCT manufacturer FROM ist173065.Device";
-            $stmt = $connection->prepare($sql);
-            $stmt->execute();
-           
-            if($stmt == TRUE)
-            {
-                echo ("<h3>Available Devices</h3>");
-                echo("<table border=\"1\">");
-                echo("<tr><td>manufacturer</td></tr>");
-                
-                foreach($stmt as $row)
-                {
-                    echo("</td><td>");
-                    echo($row['manufacturer']);
-                    echo("</td></tr>");
-                    
-                }
-                echo("</table>");
-            }else{
-                echo("Error: " . $sql . "<br>" . $stmt->error);
-
-            }
-*/        
+      
         ?>
 
         <form action="newSeries.php" method="post">
