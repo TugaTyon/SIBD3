@@ -35,12 +35,15 @@ function sql_secure_query($connection, $sql, Array $vals = [] )
     }
    
    try{
+        $stmt->execute();
+/*      
         if ($stmt->execute() == FALSE)
         {
             $info =  $connection->errorInfo();
             echo("<p>Error: {$info[0]} {$info[1]} {$info[2]}</p>");
             exit();
         }
+*/
     }
     catch(PDOException $exception)
     {

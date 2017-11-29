@@ -15,7 +15,7 @@
       <title>Creating a new study</title>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     </head>
-  <body>
+  <body onload="getMyHomePage()">
     <h2>Inserting your request into the Database</h2>
         <?php
             
@@ -35,10 +35,11 @@
             $sql = "SELECT number FROM ist173065.Request WHERE `date`= '" . $date_now . "'";
             $stmt = $connection->prepare($sql);
             $stmt->execute();
-            
+            /*$result = sql_secure_query($connection, $sql);*/
             if($stmt == TRUE)
             {
                 $last_id = $stmt->fetchColumn();
+                $_SESSION['req_num'] = $last_id;
                 /*echo "New record created successfully. Last inserted ID is: " . $last_id;*/
                 
             }else{
@@ -96,13 +97,23 @@
                 ?>
             </select> 
 
-            
-
+            <input type="hidden" id="urlele" name="url" value="">
             <p><input type="submit" name="submit" value="Submit"/></p>
         </form>
 
-        <?php $connection = null; ?>
+        <?php
+            $connection = null; 
+            $_SESSION['doctor_id'] = $_POST['doctor_id'];
+            $_SESSION['date_study'] = $date_now;
+        
+        ?>
 
+        
+
+        <p>Patient ID: <?php echo($_POST['patient_id']); ?> </p>
+        <p>Doctor ID: <?php echo($_POST['doctor_id']); ?> </p>
+        <p>date: <?php echo($date_now); ?> </p>
+        <p>END OF FILE :D</p>
     </body>
 
 
@@ -115,6 +126,14 @@
         $('.' + manuf).prop('disabled', false);
         $('[name=model]').val( '' );
         
+        }
+    </script>
+    <script>
+        function getMyHomePage() {
+            var url = window.location.href ;
+            var arr = url.split("/");
+            var result = arr[0] + "//" + arr[2] + "/" + arr[3];
+            document.getElementById("urlele").value = result;
         }
     </script>
 
