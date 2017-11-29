@@ -27,7 +27,7 @@
 
             $sql =  "INSERT INTO ist173065.Request VALUES (:number,:patient_id,:doctor_id,:date)";
 
-            $result = sql_secure_query($connection, $sql, Array(":number" => $aux_null,
+            $result = sql_safe_query($connection, $sql, Array(":number" => $aux_null,
                                                                 ":patient_id" => $_POST['patient_id'],
                                                                 ":doctor_id" => $_POST['doctor_id'],
                                                                 ":date" => $date_now));
@@ -35,7 +35,7 @@
             $sql = "SELECT number FROM ist173065.Request WHERE `date`= '" . $date_now . "'";
             $stmt = $connection->prepare($sql);
             $stmt->execute();
-            /*$result = sql_secure_query($connection, $sql);*/
+            /*$result = sql_safe_query($connection, $sql);*/
             if($stmt == TRUE)
             {
                 $last_id = $stmt->fetchColumn();
@@ -79,7 +79,7 @@
             <select onchange="get_models()" id="manuf" name="manufacturer"/>
                 <option value=""  selected disabled>Device manufacturer</option>
                 <?php
-                    $result = sql_secure_query($connection, "SELECT DISTINCT manufacturer FROM ist173065.Device");
+                    $result = sql_safe_query($connection, "SELECT DISTINCT manufacturer FROM ist173065.Device");
 
                     foreach($result as $row1){
                         echo("<option value=\"{$row1['manufacturer']}\"> {$row1['manufacturer']} </option>");
@@ -90,7 +90,7 @@
             <select name="model">
                 <option selected="selected">Choose one</option>
                 <?php
-                    $result = sql_secure_query($connection, "SELECT * FROM ist173065.Device");
+                    $result = sql_safe_query($connection, "SELECT * FROM ist173065.Device");
                     foreach($result as $value2) { 
                         echo("<option  class=\" hide_show {$value2['manufacturer']}\"  value=\"{$value2['model']}\"> {$value2['model']} </option>");
                     }

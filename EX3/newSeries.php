@@ -19,7 +19,7 @@
             
 
             $sql =  "SELECT serialnum FROM Device WHERE manufacturer = '" . $_POST['manufacturer'] . "' AND model = '" . $_POST['model'] . "'";
-            $result = sql_secure_query($connection, $sql);
+            $result = sql_safe_query($connection, $sql);
             $snum = $result->fetchColumn();
             echo("<br>serial number:" . $snum);
             
@@ -27,7 +27,7 @@
             $connection->beginTransaction();
 
             $sql =  "INSERT INTO Study VALUES (:req_num,:description,:date,:doctor_id,:manuf,:serial_num)";
-            $result = sql_secure_query($connection, $sql, Array(":req_num" => $_SESSION['req_num'],
+            $result = sql_safe_query($connection, $sql, Array(":req_num" => $_SESSION['req_num'],
                                                                 ":description" => $_POST['study_description'],
                                                                 ":date" => $_POST['date_study'],
                                                                 ":doctor_id" => $_SESSION['doctor_id'],
@@ -45,7 +45,7 @@
             
                 
                 $sql =  "SELECT MAX(series_id) AS series_id FROM Series";
-                $result = sql_secure_query($connection, $sql);
+                $result = sql_safe_query($connection, $sql);
                 $last_series_id = $result->fetchColumn();
                 $new_series_id = $last_series_id+1;
 
@@ -55,7 +55,7 @@
                 
 
                 $sql =  "INSERT INTO Series VALUES (:series_id,:name,:base_url,:req_number,:description)";
-                $result = sql_secure_query($connection, $sql, Array(":series_id" => $new_series_id,
+                $result = sql_safe_query($connection, $sql, Array(":series_id" => $new_series_id,
                                                                     ":name" => $series_name,
                                                                     ":base_url" => $series_url,
                                                                     ":req_number" => $_SESSION['req_num'],

@@ -23,7 +23,7 @@ function new_connection(&$connection)
 
 }
 
-function sql_secure_query($connection, $sql, Array $vals = [] )
+function sql_safe_query($connection, $sql, Array $vals = [] )
 {
   $stmt = $connection->prepare($sql);
 
