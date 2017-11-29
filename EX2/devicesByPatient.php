@@ -1,3 +1,9 @@
+<?php
+  require_once('sql_funcs.php');
+  session_start();
+?>
+
+
 <html>
     <head>
       <title>Devices by Patient</title>
@@ -6,25 +12,12 @@
       <h3>Patient: <?php echo($_REQUEST['patient_name']); ?></h3>
       <h4>Devices</h4>
       <?php
-      try
-      {
-        $host = 'db.tecnico.ulisboa.pt';
-        $user = 'ist173065';
-        $pass = 'wsfv4254';
-        $dsn = "mysql:host=$host;dbname=$user";
-        $connection = new PDO($dsn, $user, $pass);
-      }
-        catch(PDOException $exception)
-      {
-        echo("<p>Error: ");
-        echo($exception->getMessage());
-        echo("</p>");
-        exit();
-      }
+      $connection = null;
+      new_connection($connection);
+
       $sql = "SELECT * FROM  Wears , Device
-      WHERE patient = ".$_REQUEST['patient_id']." AND snum = serialnum AND manuf = manufacturer ORDER BY `end` DESC";
-      $stmt= $connection->prepare($sql);
-      $stmt-> execute();
+      WHERE patient = :patient_id AND snum = serialnum AND manuf = manufacturer ORDER BY `end` DESC";
+      $stmt=sql_safe_query($connection, $sql, Array(":patient_id" => $_REQUEST['patient_id']));
 
       date_default_timezone_set('Europe/Lisbon');
       $currentDate = date('Y-m-d H:i:s');
@@ -37,7 +30,7 @@
       {
         echo("<tr><td>");
         //highlighted ID
-        if (($currentDate > $row['end'])) { //TIRAR COMENTARIO DEPOIS DE TABELAS UPDATED!!!!!!!!!!!
+        if (($currentDate > $row['end'])) {
           echo($row['snum']);   //If Device no longer in use
         }else {
           echo('<a href="">'.$row['snum'].'</a>'); //If Device is in use -> highlighted
@@ -48,7 +41,7 @@
         echo($row['manufacturer']);
 
         //Create Button per line of Current Device
-        if (($currentDate > $row['end'])) {//TIRAR COMENTARIO DEPOIS DE TABELAS UPDATED!!!!!!!!!!!
+        if (($currentDate > $row['end'])) {
           echo("</td></tr>");   //If Device no longer in use
         }else {//If Device is in use -> button (Form)
           echo ("<td>");
@@ -68,5 +61,8 @@
       $connection = NULL;
       $stmt = NULL;
        ?>
+       <form action="appointment.php" method="post">
+         <p><input type="submit" value="Homepage"/></p>
+       </form>
   </body>
 </html>

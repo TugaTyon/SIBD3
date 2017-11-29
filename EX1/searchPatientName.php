@@ -8,7 +8,6 @@
         $connection = null;
         new_connection($connection);
 
-
         $sql = "SELECT * FROM Patient WHERE name= :patient_name";
         $stmt=sql_safe_query($connection, $sql, Array(":patient_name" => $_REQUEST['patient_name']));
         $row_num = $stmt->rowCount();

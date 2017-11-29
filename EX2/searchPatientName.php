@@ -1,24 +1,15 @@
+<?php
+  require_once('sql_funcs.php');
+  session_start();
+?>
 <html>
   <body>
       <?php
-        try
-        {
-          $host = 'db.tecnico.ulisboa.pt';
-          $user = 'ist173065';
-          $pass = 'wsfv4254';
-          $dsn = "mysql:host=$host;dbname=$user";
-          $connection = new PDO($dsn, $user, $pass);
-        }
-          catch(PDOException $exception)
-        {
-          echo("<p>Error: ");
-          echo($exception->getMessage());
-          echo("</p>");
-          exit();
-        }
-        $sql = "SELECT * FROM Patient WHERE name= '" . $_REQUEST['patient_name'] . "'";
-        $stmt= $connection->prepare($sql);
-        $stmt-> execute();
+        $connection = null;
+        new_connection($connection);
+
+        $sql = "SELECT * FROM Patient WHERE name= :patient_name";
+        $stmt=sql_safe_query($connection, $sql, Array(":patient_name" => $_REQUEST['patient_name']));
         $row_num = $stmt->rowCount();
 
         if ($stmt == FALSE)
@@ -27,7 +18,6 @@
           echo("<p>Error: {$info[0]} {$info[1]} {$info[2]}</p>");
           exit();
         }
-
 
         if ( $row_num > 0 )
         {
@@ -66,7 +56,9 @@
         </form>
            <?php
         }
-
        ?>
+       <form action="appointment.php" method="post">
+         <p><input type="submit" value="Homepage"/></p>
+       </form>
   </body>
 </html>
