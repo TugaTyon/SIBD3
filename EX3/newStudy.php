@@ -5,7 +5,6 @@
   if(isset($_REQUEST['submit'])){
     echo("Patient_ID: ".(int)$_REQUEST["patient_id"]);
     echo("<br>Doctor_ID: ".$_REQUEST["doctor_id"]);
-    $_SESSION['try_name'] = $_POST['patient_name'];
   }
 */
 ?>
@@ -24,7 +23,7 @@
 
             $date_now = date('Y-m-d H:i:s');
             $aux_null = null;
-
+  
             $sql =  "INSERT INTO ist173065.Request VALUES (:number,:patient_id,:doctor_id,:date)";
 
             $result = sql_safe_query($connection, $sql, Array(":number" => $aux_null,
@@ -108,12 +107,6 @@
         
         ?>
 
-        
-
-        <p>Patient ID: <?php echo($_POST['patient_id']); ?> </p>
-        <p>Doctor ID: <?php echo($_POST['doctor_id']); ?> </p>
-        <p>date: <?php echo($date_now); ?> </p>
-        <p>END OF FILE :D</p>
     </body>
 
 
