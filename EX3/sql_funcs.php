@@ -6,8 +6,6 @@ function new_connection(&$connection)
     $user = 'ist173065';
     $pass = 'wsfv4254';
     $dsn = "mysql:host=$host;dbname=$user";
-    echo("<p>Attempting to connect to DB");
-    echo("</p>");
 
     try{
         
@@ -31,7 +29,7 @@ function sql_secure_query($connection, $sql, Array $vals = [] )
 
   foreach($vals as $key => &$value)
     {
-        echo("<p>$key : $value</p>");
+        /*echo("<p>$key : $value</p>");*/
         $stmt->bindParam($key,$value);
  
     }
