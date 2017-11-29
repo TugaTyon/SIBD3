@@ -14,14 +14,11 @@
             $connection = null;
             new_connection($connection);
 
-            $myURL = $_POST['url'];
-            echo("urlLELELELELELEL: " . $myURL);
-            
+            $myURL = $_POST['url'];            
 
             $sql =  "SELECT serialnum FROM Device WHERE manufacturer = '" . $_POST['manufacturer'] . "' AND model = '" . $_POST['model'] . "'";
             $result = sql_safe_query($connection, $sql);
             $snum = $result->fetchColumn();
-            echo("<br>serial number:" . $snum);
             
 
             $connection->beginTransaction();
