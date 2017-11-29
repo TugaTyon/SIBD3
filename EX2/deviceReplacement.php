@@ -52,9 +52,6 @@
       echo("</table>");
 
        ?>
-       <form action="devicesByPatient.php" method="post">
-         <p><input type="submit" value="Back"/></p>
-       </form>
        <form action="appointment.php" method="post">
          <p><input type="submit" value="Homepage"/></p>
        </form>
